@@ -1,101 +1,45 @@
 package com.gildedrose;
 
-import org.junit.jupiter.api.Test;
+import com.gildedrose.constants.Constants;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import java.util.stream.Stream;
 
 class GildedRoseTest {
 
     GildedRose app;
 
-    @Test
-    void whenItemIsAgedBrie_QualityShouldIncreaseByOne() {
-        final Item[] items = new Item[]{new Item("Aged Brie", 30, 49)};
+    @ParameterizedTest(name = "#{index} - itemName:{0}, sellIn: {1}, quality: {2} | expectedOutput: {3}")
+    @MethodSource("provideArgumentsForTest")
+    void updateQuality(final String itemName, final int sellIn, final int quality, final Item expectedItem) {
+        final Item[] items = new Item[]{new Item(itemName, sellIn, quality)};
         app = new GildedRose(items);
         app.updateQuality();
-        assertEquals("Aged Brie", app.items[0].name);
-        assertEquals(50, app.items[0].quality);
+        Assertions.assertEquals(expectedItem.toString(), app.items[0].toString());
     }
 
-    @Test
-    void whenItemDoesNotHaveSpecialQualityRequirements_QualityAndSellInShouldDecreaseByOne() {
-        final Item[] items = new Item[]{new Item("Not special", 30, 49)};
-        app = new GildedRose(items);
-        app.updateQuality();
-        assertEquals("Not special", app.items[0].name);
-        assertEquals(48, app.items[0].quality);
-        assertEquals(29, app.items[0].sellIn);
+    private static Stream<Arguments> provideArgumentsForTest() {
+        return Stream.of(
+                getTestArguments(Constants.AGED_BRIE, 30, 49, new Item(Constants.AGED_BRIE, 29, 50)),
+                getTestArguments(Constants.AGED_BRIE, -1, 48, new Item(Constants.AGED_BRIE, -2, 50)),
+                getTestArguments(Constants.AGED_BRIE, -1, 50, new Item(Constants.AGED_BRIE, -2, 50)),
+                getTestArguments(Constants.NOT_SPECIAL, -1, 20, new Item(Constants.NOT_SPECIAL, -2, 18)),
+                getTestArguments(Constants.NOT_SPECIAL, 30, 49, new Item(Constants.NOT_SPECIAL, 29, 48)),
+                getTestArguments(Constants.NOT_SPECIAL, -1, 0, new Item(Constants.NOT_SPECIAL, -2, 0)),
+                getTestArguments(Constants.SULFURAS, -1, 1, new Item(Constants.SULFURAS, -1, 1)),
+                getTestArguments(Constants.BACKSTAGE_PASSES, 10, 50, new Item(Constants.BACKSTAGE_PASSES, 9, 50)),
+                getTestArguments(Constants.BACKSTAGE_PASSES, 12, 49, new Item(Constants.BACKSTAGE_PASSES, 11, 50)),
+                getTestArguments(Constants.BACKSTAGE_PASSES, 10, 49, new Item(Constants.BACKSTAGE_PASSES, 9, 50)),
+                getTestArguments(Constants.BACKSTAGE_PASSES, 5, 49, new Item(Constants.BACKSTAGE_PASSES, 4, 50)),
+                getTestArguments(Constants.BACKSTAGE_PASSES, 10, 20, new Item(Constants.BACKSTAGE_PASSES, 9, 22)),
+                getTestArguments(Constants.BACKSTAGE_PASSES, 5, 20, new Item(Constants.BACKSTAGE_PASSES, 4, 23)),
+                getTestArguments(Constants.BACKSTAGE_PASSES, -1, 20, new Item(Constants.BACKSTAGE_PASSES, -2, 0)));
     }
 
-    @Test
-    void whenItemDoesNotHaveSpecialQualityRequirements_AndSellInDateAsPassed_QualityShouldDegradeTwiceAsFast() {
-        final Item[] items = new Item[]{new Item("Not special", 0, 49)};
-        app = new GildedRose(items);
-        app.updateQuality();
-        assertEquals("Not special", app.items[0].name);
-        assertEquals(47, app.items[0].quality);
-        assertEquals(-1, app.items[0].sellIn);
+    private static Arguments getTestArguments(final String itemName, final int sellIn, final int quality, final Item expectedItem) {
+        return Arguments.of(itemName, sellIn, quality, expectedItem);
     }
-
-    @Test
-    void whenItemDoesNotHaveSpecialQualityRequirements_QualityShouldNotBeNegative() {
-        final Item[] items = new Item[]{new Item("Not special", 0, 1)};
-        app = new GildedRose(items);
-        app.updateQuality();
-        assertEquals("Not special", app.items[0].name);
-        assertEquals(0, app.items[0].quality);
-        assertEquals(-1, app.items[0].sellIn);
-    }
-
-    @Test
-    void QualityShouldNotGoOver50() {
-        final Item[] items = new Item[]{new Item("Aged Brie", 5, 50)};
-        app = new GildedRose(items);
-        app.updateQuality();
-        assertEquals("Aged Brie", app.items[0].name);
-        assertEquals(50, app.items[0].quality);
-        assertEquals(4, app.items[0].sellIn);
-    }
-
-    @Test
-    void whenItemIsSulfuras_SellInAndQualityShouldNotDecrease() {
-        final Item[] items = new Item[]{new Item("Sulfuras, Hand of Ragnaros", 5, 80)};
-        app = new GildedRose(items);
-        app.updateQuality();
-        assertEquals("Sulfuras, Hand of Ragnaros", app.items[0].name);
-        assertEquals(80, app.items[0].quality);
-        assertEquals(5, app.items[0].sellIn);
-    }
-
-    @Test
-    void whenItemIsBackStagePasses_SellInAndQualityShouldIncreaseBy2IfSellInIsBetween10And6() {
-        final Item[] items = new Item[]{new Item("Backstage passes to a TAFKAL80ETC concert", 8, 10)};
-        app = new GildedRose(items);
-        app.updateQuality();
-        assertEquals("Backstage passes to a TAFKAL80ETC concert", app.items[0].name);
-        assertEquals(12, app.items[0].quality);
-        assertEquals(7, app.items[0].sellIn);
-    }
-
-    @Test
-    void whenItemIsBackStagePasses_SellInAndQualityShouldIncreaseBy3IfSellInIs5OrLess() {
-        final Item[] items = new Item[]{new Item("Backstage passes to a TAFKAL80ETC concert", 4, 12)};
-        app = new GildedRose(items);
-        app.updateQuality();
-        assertEquals("Backstage passes to a TAFKAL80ETC concert", app.items[0].name);
-        assertEquals(15, app.items[0].quality);
-        assertEquals(3, app.items[0].sellIn);
-    }
-
-    @Test
-    void whenItemIsConjured_QualityShouldDegradeTwiceAsFastAsOtherItems() {
-        final Item[] items = new Item[]{new Item("Conjured", 4, 12)};
-        app = new GildedRose(items);
-        app.updateQuality();
-        assertEquals("Conjured", app.items[0].name);
-        assertEquals(10, app.items[0].quality);
-        assertEquals(3, app.items[0].sellIn);
-    }
-
-
 }
