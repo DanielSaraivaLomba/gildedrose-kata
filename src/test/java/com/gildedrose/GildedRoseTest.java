@@ -59,11 +59,11 @@ class GildedRoseTest {
 
     @Test
     void whenItemIsSulfuras_SellInAndQualityShouldNotDecrease() {
-        final Item[] items = new Item[]{new Item("Sulfuras, Hand of Ragnaros", 5, 49)};
+        final Item[] items = new Item[]{new Item("Sulfuras, Hand of Ragnaros", 5, 80)};
         app = new GildedRose(items);
         app.updateQuality();
         assertEquals("Sulfuras, Hand of Ragnaros", app.items[0].name);
-        assertEquals(49, app.items[0].quality);
+        assertEquals(80, app.items[0].quality);
         assertEquals(5, app.items[0].sellIn);
     }
 
@@ -86,7 +86,7 @@ class GildedRoseTest {
         assertEquals(15, app.items[0].quality);
         assertEquals(3, app.items[0].sellIn);
     }
-    
+
     @Test
     void whenItemIsConjured_QualityShouldDegradeTwiceAsFastAsOtherItems() {
         final Item[] items = new Item[]{new Item("Conjured", 4, 12)};
