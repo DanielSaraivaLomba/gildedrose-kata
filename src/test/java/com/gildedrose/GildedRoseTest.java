@@ -26,17 +26,20 @@ class GildedRoseTest {
                 getTestArguments(Constants.AGED_BRIE, 30, 49, new Item(Constants.AGED_BRIE, 29, 50)),
                 getTestArguments(Constants.AGED_BRIE, -1, 48, new Item(Constants.AGED_BRIE, -2, 50)),
                 getTestArguments(Constants.AGED_BRIE, -1, 50, new Item(Constants.AGED_BRIE, -2, 50)),
-                getTestArguments(Constants.NOT_SPECIAL, -1, 20, new Item(Constants.NOT_SPECIAL, -2, 18)),
-                getTestArguments(Constants.NOT_SPECIAL, 30, 49, new Item(Constants.NOT_SPECIAL, 29, 48)),
-                getTestArguments(Constants.NOT_SPECIAL, -1, 0, new Item(Constants.NOT_SPECIAL, -2, 0)),
-                getTestArguments(Constants.SULFURAS, -1, 1, new Item(Constants.SULFURAS, -1, 1)),
+                getTestArguments(Constants.NORMAL, -1, 20, new Item(Constants.NORMAL, -2, 18)),
+                getTestArguments(Constants.NORMAL, 30, 49, new Item(Constants.NORMAL, 29, 48)),
+                getTestArguments(Constants.NORMAL, -1, 0, new Item(Constants.NORMAL, -2, 0)),
+                getTestArguments(Constants.SULFURAS, 10, 80, new Item(Constants.SULFURAS, 10, 80)),
                 getTestArguments(Constants.BACKSTAGE_PASSES, 10, 50, new Item(Constants.BACKSTAGE_PASSES, 9, 50)),
                 getTestArguments(Constants.BACKSTAGE_PASSES, 12, 49, new Item(Constants.BACKSTAGE_PASSES, 11, 50)),
                 getTestArguments(Constants.BACKSTAGE_PASSES, 10, 49, new Item(Constants.BACKSTAGE_PASSES, 9, 50)),
                 getTestArguments(Constants.BACKSTAGE_PASSES, 5, 49, new Item(Constants.BACKSTAGE_PASSES, 4, 50)),
                 getTestArguments(Constants.BACKSTAGE_PASSES, 10, 20, new Item(Constants.BACKSTAGE_PASSES, 9, 22)),
                 getTestArguments(Constants.BACKSTAGE_PASSES, 5, 20, new Item(Constants.BACKSTAGE_PASSES, 4, 23)),
-                getTestArguments(Constants.BACKSTAGE_PASSES, -1, 20, new Item(Constants.BACKSTAGE_PASSES, -2, 0)));
+                getTestArguments(Constants.BACKSTAGE_PASSES, -1, 20, new Item(Constants.BACKSTAGE_PASSES, -2, 0)),
+                getTestArguments(Constants.CONJURED, 10, 20, new Item(Constants.CONJURED, 9, 18)),
+                getTestArguments(Constants.CONJURED, 10, 0, new Item(Constants.CONJURED, 9, 0)),
+                getTestArguments(Constants.CONJURED, -1, 10, new Item(Constants.CONJURED, -2, 6)));
     }
 
     private static Arguments getTestArguments(final String itemName, final int sellIn, final int quality, final Item expectedItem) {

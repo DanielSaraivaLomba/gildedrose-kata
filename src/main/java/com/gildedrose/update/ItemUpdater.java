@@ -15,6 +15,7 @@ public class ItemUpdater {
             put(Constants.BACKSTAGE_PASSES, new UpdateStrategyBackstagePasses());
             put(Constants.SULFURAS, new UpdateStrategyNull());
             put(Constants.DEFAULT, new UpdateStrategyDefault());
+            put(Constants.CONJURED, new UpdateStrategyDoubleDecrease());
         }};
     }
 
@@ -28,6 +29,9 @@ public class ItemUpdater {
                 break;
             case Constants.SULFURAS:
                 updaterStrategyResolver.get(Constants.SULFURAS).updateItemQuality(item);
+                break;
+            case Constants.CONJURED:
+                updaterStrategyResolver.get(Constants.CONJURED).updateItemQuality(item);
                 break;
             default:
                 updaterStrategyResolver.get(Constants.DEFAULT).updateItemQuality(item);
