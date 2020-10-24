@@ -2,7 +2,7 @@ package com.gildedrose.update;
 
 import com.gildedrose.Item;
 
-public class UpdateStrategyAgedBrie implements IUpdaterStrategy {
+public class UpdateStrategyIncreaseQuality implements IUpdaterStrategy {
 
     @Override
     public void updateItemQuality(final Item item) {

@@ -11,7 +11,7 @@ public class ItemUpdater {
 
     public ItemUpdater() {
         this.updaterStrategyResolver = new HashMap<>() {{
-            put(Constants.AGED_BRIE, new UpdateStrategyAgedBrie());
+            put(Constants.AGED_BRIE, new UpdateStrategyIncreaseQuality());
             put(Constants.BACKSTAGE_PASSES, new UpdateStrategyBackstagePasses());
             put(Constants.SULFURAS, new UpdateStrategyNull());
             put(Constants.DEFAULT, new UpdateStrategyDefault());
