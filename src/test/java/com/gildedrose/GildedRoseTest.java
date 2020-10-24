@@ -15,9 +15,7 @@ class GildedRoseTest {
     @ParameterizedTest(name = "#{index} - itemName:{0}, sellIn: {1}, quality: {2} | expectedOutput: {3}")
     @MethodSource("provideArgumentsForTest")
     void updateQuality(final String itemName, final int sellIn, final int quality, final Item expectedItem) {
-        final ItemFactory factory = new ItemFactory();
-        final Item item = factory.getItem(itemName, sellIn, quality);
-        final Item[] items = new Item[]{item};
+        final Item[] items = new Item[]{new Item(itemName, sellIn, quality)};
         app = new GildedRose(items);
         app.updateQuality();
         Assertions.assertEquals(expectedItem.toString(), app.items[0].toString());

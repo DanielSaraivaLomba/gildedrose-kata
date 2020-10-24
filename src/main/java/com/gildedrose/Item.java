@@ -1,6 +1,6 @@
 package com.gildedrose;
 
-public class Item implements IQualityControl {
+public class Item {
 
     public String name;
 
@@ -19,16 +19,4 @@ public class Item implements IQualityControl {
         return this.name + ", " + this.sellIn + ", " + this.quality;
     }
 
-    @Override
-    public void updateItemQuality() {
-        if (quality > 0) {
-            quality = quality - 1;
-        }
-        sellIn = sellIn - 1;
-        if (sellIn < 0) {
-            if (quality > 0) {
-                quality = quality - 1;
-            }
-        }
-    }
 }
